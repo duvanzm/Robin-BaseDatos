@@ -105,3 +105,107 @@ FROM users
 GROUP BY role;
 
 /*Nivel 4*/ 
+
+/*21.Mostrar profesiones con más de 10 personas.*/
+
+SELECT profession, COUNT(*)
+FROM users
+WHERE NOT profession is null
+GROUP BY profession
+HAVING COUNT(*) > 10;
+
+/*22.Mostrar la ciudad con más usuarios.*/
+
+SELECT city , COUNT(*) AS num_city
+FROM users 
+GROUP BY city
+ORDER BY num_city DESC 
+LIMIT 1
+
+
+/*23.Comparar cantidad de menores vs mayores de edad.*/
+
+SELECT 
+  CASE 
+    WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) < 18 THEN 'Menores'
+    ELSE 'Mayores de edad'
+  END AS categoria,
+  COUNT(*) AS total
+FROM users
+GROUP BY categoria;
+
+
+/*24.Promedio de ingresos por ciudad ordenado de mayor a menor.*/
+
+SELECT city, AVG(monthly_income) as promedio
+FROM users
+GROUP BY city
+ORDER BY promedio desc
+
+/*25.Mostrar las 5 personas con mayor ingreso.*/
+
+SELECT first_name , MAX(monthly_income) as mayor_ingreso
+FROM users
+GROUP BY first_name 
+ORDER BY mayor_ingreso desc
+LIMIT 5
+
+
+/*NIVEL 5*/
+
+/*26.Clasificar usuarios como:
+
+"Menor"
+"Adulto"
+"Adulto mayor"*/
+
+SELECT 
+  CASE 
+    WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) < 18 THEN 'Menores'
+    WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 18 and 50 THEN 'Adulto'
+    ELSE 'Adulto mayor'
+  END AS categoria,
+  COUNT(*) AS total
+FROM users
+GROUP BY categoria;
+
+/*27.Mostrar cuántos usuarios hay en cada clasificación anterior.*/
+
+SELECT 
+  CASE 
+    WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) < 18 THEN 'Menores'
+    WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 18 and 50 THEN 'Adulto'
+    ELSE 'Adulto mayor'
+  END AS categoria,
+  COUNT(*) AS total
+FROM users
+GROUP BY categoria;
+
+/*28.Ranking de ingresos por ciudad.*/
+
+SELECT 
+  city,
+  SUM(monthly_income ) AS total_ingresos,
+  RANK() OVER (ORDER BY SUM(monthly_income) DESC) AS ranking
+FROM users
+GROUP BY city;
+
+
+/*29.Profesión con mayor ingreso promedio.*/
+
+SELECT profession, AVG(monthly_income) AS promedio_ingreso
+FROM users
+GROUP BY profession
+ORDER BY promedio_ingreso DESC
+LIMIT 1;
+
+
+
+/*30.Mostrar usuarios cuyo ingreso esté por encima del promedio general.*/
+
+SELECT *
+FROM users
+WHERE monthly_income > (
+    SELECT AVG(monthly_income)
+    FROM users
+);
