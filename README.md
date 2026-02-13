@@ -130,15 +130,16 @@ WHERE company is null
 
 - 19.Calcular el promedio general de ingresos.
 
-````SELECT AVG(monthly_income )
-FROM users ```
+```SELECT AVG(monthly_income )
+FROM users
+```
 
 - 20.Calcular el promedio de ingresos por role.
 
 ```SELECT role, AVG(monthly_income)
 FROM users
 GROUP BY role;
-````
+```
 
 ## Nivel 4
 
@@ -182,11 +183,12 @@ ORDER BY promedio desc
 
 - 25.Mostrar las 5 personas con mayor ingreso.
 
-````SELECT first_name , MAX(monthly_income) as mayor_ingreso
+```SELECT first_name , MAX(monthly_income) as mayor_ingreso
 FROM users
 GROUP BY first_name
 ORDER BY mayor_ingreso desc
-LIMIT 5```
+LIMIT 5
+```
 
 ## NIVEL 5
 
@@ -205,7 +207,7 @@ LIMIT 5```
   COUNT(*) AS total
 FROM users
 GROUP BY categoria;
-````
+```
 
 - 27.Mostrar cuántos usuarios hay en cada clasificación anterior.
 
