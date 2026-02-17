@@ -124,6 +124,8 @@ FROM users
 WHERE role = "admin" and TIMESTAMPDIFF(year, birth_date, CURDATE()) >= 25
 ```
 
+## Nivel 3
+
 - 16.Contar usuarios por role.
 
 ```
